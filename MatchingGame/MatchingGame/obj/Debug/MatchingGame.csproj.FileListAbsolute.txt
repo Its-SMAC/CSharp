@@ -1,0 +1,13 @@
+C:\Users\santi\Documents\GitHub\CSharp\MatchingGame\MatchingGame\bin\Debug\MatchingGame.exe.config
+C:\Users\santi\Documents\GitHub\CSharp\MatchingGame\MatchingGame\bin\Debug\MatchingGame.exe
+C:\Users\santi\Documents\GitHub\CSharp\MatchingGame\MatchingGame\bin\Debug\MatchingGame.pdb
+C:\Users\santi\Documents\GitHub\CSharp\MatchingGame\MatchingGame\obj\Debug\MatchingGame.csproj.AssemblyReference.cache
+C:\Users\santi\Documents\GitHub\CSharp\MatchingGame\MatchingGame\obj\Debug\MatchingGame.Form1.resources
+C:\Users\santi\Documents\GitHub\CSharp\MatchingGame\MatchingGame\obj\Debug\MatchingGame.Properties.Resources.resources
+C:\Users\santi\Documents\GitHub\CSharp\MatchingGame\MatchingGame\obj\Debug\MatchingGame.csproj.GenerateResource.cache
+C:\Users\santi\Documents\GitHub\CSharp\MatchingGame\MatchingGame\obj\Debug\MatchingGame.csproj.CoreCompileInputs.cache
+C:\Users\santi\Documents\GitHub\CSharp\MatchingGame\MatchingGame\obj\Debug\MatchingGame.exe
+C:\Users\santi\Documents\GitHub\CSharp\MatchingGame\MatchingGame\obj\Debug\MatchingGame.pdb
+C:\Users\santi\Documents\GitHub\CSharp\MatchingGame\MatchingGame\bin\Debug\src\sounds\ding-sound-effect_2.wav
+C:\Users\santi\Documents\GitHub\CSharp\MatchingGame\MatchingGame\bin\Debug\src\sounds\mouse-click-sound.wav
+C:\Users\santi\Documents\GitHub\CSharp\MatchingGame\MatchingGame\bin\Debug\src\sounds\mrstokes302-you-win-sfx-mrstokes302-442128.wav
