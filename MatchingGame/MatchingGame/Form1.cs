@@ -23,23 +23,23 @@ namespace MatchingGame
         PictureBox secondClicked = null;
         Random random = new Random();
 
-        List<Image> images = new List<Image>()
+        List<Tuple<string, Bitmap>> images = new List<Tuple<string, Bitmap>>()
         {
-            Resources.Nim, Resources.Nim,
-            Resources.Rust, Resources.Rust,
-            Resources.Assembly, Resources.Assembly,
-            Resources.Cobol, Resources.Cobol,
-            Resources.CSharp, Resources.CSharp,
-            Resources.Golang, Resources.Golang,
-            Resources.Java, Resources.Java,
-            Resources.Kotlin, Resources.Kotlin,
-            Resources.Perl, Resources.Perl,
-            Resources.Php, Resources.Php,
-            Resources.Python, Resources.Python,
-            Resources.Ruby, Resources.Ruby,
-            Resources.Sql, Resources.Sql,
-            Resources.Swift, Resources.Swift,
-            Resources.Typescript, Resources.Typescript
+            Tuple.Create("Nim", Resources.Nim), Tuple.Create("Nim", Resources.Nim),
+            Tuple.Create("Rust", Resources.Rust), Tuple.Create("Rust", Resources.Rust),
+            Tuple.Create("Assembly", Resources.Assembly), Tuple.Create("Assembly", Resources.Assembly),
+            Tuple.Create("Cobol", Resources.Cobol), Tuple.Create("Cobol", Resources.Cobol),
+            Tuple.Create("CSharp", Resources.CSharp), Tuple.Create("CSharp", Resources.CSharp),
+            Tuple.Create("Golang", Resources.Golang), Tuple.Create("Golang", Resources.Golang),
+            Tuple.Create("Java", Resources.Java), Tuple.Create("Java", Resources.Java),
+            Tuple.Create("Kotlin", Resources.Kotlin), Tuple.Create("Kotlin", Resources.Kotlin),
+            Tuple.Create("Perl", Resources.Perl), Tuple.Create("Perl", Resources.Perl),
+            Tuple.Create("Php", Resources.Php), Tuple.Create("Php", Resources.Php),
+            Tuple.Create("Python", Resources.Python), Tuple.Create("Python", Resources.Python),
+            Tuple.Create("Ruby", Resources.Ruby), Tuple.Create("Ruby", Resources.Ruby),
+            Tuple.Create("Sql", Resources.Sql), Tuple.Create("Sql", Resources.Sql),
+            Tuple.Create("Swift", Resources.Swift), Tuple.Create("Swift", Resources.Swift),
+            Tuple.Create("Typescript", Resources.Typescript), Tuple.Create("Typescript", Resources.Typescript)
         };
 
         private void MatchingGame_Load(object sender, EventArgs e)
@@ -61,8 +61,11 @@ namespace MatchingGame
                 if (imageBox != null)
                 {
                     int randomNumber = random.Next(images.Count);
-                    imageBox.Image = images[randomNumber];
-                    imageBox.ForeColor = imageBox.BackColor;
+                    Tuple<string, Bitmap> selectedCard = images[randomNumber];
+                    imageBox.Image = null;
+                    imageBox.Tag = selectedCard;
+                    imageBox.SizeMode = PictureBoxSizeMode.Zoom;
+                    imageBox.BackColor = Color.CornflowerBlue;
                     images.RemoveAt(randomNumber);
                 }
             }
@@ -82,22 +85,23 @@ namespace MatchingGame
                     "src", "sounds", "mouse-click-sound.wav");
                 playSimpleSound(clickSoundFile);
 
-                if (clickedLabel.ForeColor == Color.Black)
+                if (clickedLabel.Image != null)
                     return;
 
                 if (firstClicked == null)
                 {
                     firstClicked = clickedLabel;
-                    firstClicked.ForeColor = Color.Black;
+                    Tuple<string, Bitmap> firstSelection = (Tuple<string, Bitmap>)firstClicked.Tag;
+                    firstClicked.Image = firstSelection.Item2;
                     return;
                 }
 
                 secondClicked = clickedLabel;
-                secondClicked.ForeColor = Color.Black;
+                Tuple<string, Bitmap> secondCard = (Tuple<string, Bitmap>)secondClicked.Tag;
+                secondClicked.Image = secondCard.Item2;
 
-                CheckForWinner();
-
-                if (firstClicked.Text == secondClicked.Text)
+                Tuple<string, Bitmap> matchedCard = (Tuple<string, Bitmap>)firstClicked.Tag;
+                if (matchedCard.Item1 == secondCard.Item1)
                 {
                     firstClicked = null;
                     secondClicked = null;
@@ -105,6 +109,7 @@ namespace MatchingGame
                         AppDomain.CurrentDomain.BaseDirectory,
                         "src", "sounds", "ding-sound-effect_2.wav");
                     playSimpleSound(soundFile);
+                    CheckForWinner();
                     return;
                 }
 
@@ -116,8 +121,8 @@ namespace MatchingGame
         {
             timer1.Stop();
 
-            firstClicked.ForeColor = firstClicked.BackColor;
-            secondClicked.ForeColor = secondClicked.BackColor;
+            firstClicked.Image = null;
+            secondClicked.Image = null;
             firstClicked = null;
             secondClicked = null;
         }
@@ -130,7 +135,7 @@ namespace MatchingGame
 
                 if (iconLabel != null)
                 {
-                    if (iconLabel.ForeColor == iconLabel.BackColor)
+                    if (iconLabel.Image == null)
                         return;
                 }
             }

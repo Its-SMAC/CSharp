@@ -1,0 +1,152 @@
+﻿using MatchingGame.Properties;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Media;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace MatchingGame
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        PictureBox firstClicked = null;
+        PictureBox secondClicked = null;
+        Random random = new Random();
+
+        List<Tuple<string, Bitmap>> images = new List<Tuple<string, Bitmap>>()
+        {
+            Tuple.Create("Nim", Resources.Nim), Tuple.Create("Nim", Resources.Nim),
+            Tuple.Create("Rust", Resources.Rust), Tuple.Create("Rust", Resources.Rust),
+            Tuple.Create("Assembly", Resources.Assembly), Tuple.Create("Assembly", Resources.Assembly),
+            Tuple.Create("Cobol", Resources.Cobol), Tuple.Create("Cobol", Resources.Cobol),
+            Tuple.Create("CSharp", Resources.CSharp), Tuple.Create("CSharp", Resources.CSharp),
+            Tuple.Create("Golang", Resources.Golang), Tuple.Create("Golang", Resources.Golang),
+            Tuple.Create("Java", Resources.Java), Tuple.Create("Java", Resources.Java),
+            Tuple.Create("Kotlin", Resources.Kotlin), Tuple.Create("Kotlin", Resources.Kotlin),
+            Tuple.Create("Perl", Resources.Perl), Tuple.Create("Perl", Resources.Perl),
+            Tuple.Create("Php", Resources.Php), Tuple.Create("Php", Resources.Php),
+            Tuple.Create("Python", Resources.Python), Tuple.Create("Python", Resources.Python),
+            Tuple.Create("Ruby", Resources.Ruby), Tuple.Create("Ruby", Resources.Ruby),
+            Tuple.Create("Sql", Resources.Sql), Tuple.Create("Sql", Resources.Sql),
+            Tuple.Create("Swift", Resources.Swift), Tuple.Create("Swift", Resources.Swift),
+            Tuple.Create("Typescript", Resources.Typescript), Tuple.Create("Typescript", Resources.Typescript)
+        };
+
+        private void MatchingGame_Load(object sender, EventArgs e)
+        {
+            AssignIconsToSquares();
+        }
+
+        private void playSimpleSound(string soundFile)
+        {
+            SoundPlayer simpleSound = new SoundPlayer(soundFile);
+            simpleSound.Play();
+        }
+
+        private void AssignIconsToSquares()
+        {
+            foreach (Control control in tableLayoutPanel1.Controls)
+            {
+                PictureBox imageBox = control as PictureBox;
+                if (imageBox != null)
+                {
+                    int randomNumber = random.Next(images.Count);
+                    Tuple<string, Bitmap> selectedCard = images[randomNumber];
+                    imageBox.Image = null;
+                    imageBox.Tag = selectedCard;
+                    imageBox.SizeMode = PictureBoxSizeMode.Zoom;
+                    imageBox.BackColor = Color.CornflowerBlue;
+                    images.RemoveAt(randomNumber);
+                }
+            }
+        }
+
+        private void picture_Click(object sender, EventArgs e)
+        {
+            if (timer1.Enabled == true)
+                return;
+
+            PictureBox clickedLabel = sender as PictureBox;
+
+            if (clickedLabel != null)
+            {
+                string clickSoundFile = System.IO.Path.Combine(
+                    AppDomain.CurrentDomain.BaseDirectory,
+                    "src", "sounds", "mouse-click-sound.wav");
+                playSimpleSound(clickSoundFile);
+
+                if (clickedLabel.Image != null)
+                    return;
+
+                if (firstClicked == null)
+                {
+                    firstClicked = clickedLabel;
+                    Tuple<string, Bitmap> firstCard = (Tuple<string, Bitmap>)firstClicked.Tag;
+                    firstClicked.Image = firstCard.Item2;
+                    return;
+                }
+
+                secondClicked = clickedLabel;
+                Tuple<string, Bitmap> secondCard = (Tuple<string, Bitmap>)secondClicked.Tag;
+                secondClicked.Image = secondCard.Item2;
+
+                Tuple<string, Bitmap> firstCard = (Tuple<string, Bitmap>)firstClicked.Tag;
+                if (firstCard.Item1 == secondCard.Item1)
+                {
+                    firstClicked = null;
+                    secondClicked = null;
+                    string soundFile = System.IO.Path.Combine(
+                        AppDomain.CurrentDomain.BaseDirectory,
+                        "src", "sounds", "ding-sound-effect_2.wav");
+                    playSimpleSound(soundFile);
+                    CheckForWinner();
+                    return;
+                }
+
+                timer1.Start();
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            timer1.Stop();
+
+            firstClicked.Image = null;
+            secondClicked.Image = null;
+            firstClicked = null;
+            secondClicked = null;
+        }
+
+        private void CheckForWinner()
+        {
+            foreach (Control control in tableLayoutPanel1.Controls)
+            {
+                PictureBox iconLabel = control as PictureBox;
+
+                if (iconLabel != null)
+                {
+                    if (iconLabel.Image == null)
+                        return;
+                }
+            }
+
+            string winSoundFile = System.IO.Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "src", "sounds", "mrstokes302-you-win-sfx-mrstokes302-442128.wav");
+            playSimpleSound(winSoundFile);
+            MessageBox.Show("You matched all the icons!", "Congratulations");
+            Close();
+        }
+
+    }
+}
