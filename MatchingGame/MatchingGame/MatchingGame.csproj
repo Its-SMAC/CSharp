@@ -65,6 +65,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -79,9 +80,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\sounds\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="src\sounds\ding-sound-effect_2.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
